@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$FEMCEL - The Chronically Online Meme Coin</title>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        @keyframes vhsGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes chromatic {
+            0% { text-shadow: 2px 2px 0px rgba(255, 0, 0, 0.7), -2px -2px 0px rgba(0, 255, 255, 0.7); }
+            50% { text-shadow: -2px -2px 0px rgba(255, 0, 0, 0.7), 2px 2px 0px rgba(0, 255, 255, 0.7); }
+            100% { text-shadow: 2px 2px 0px rgba(255, 0, 0, 0.7), -2px -2px 0px rgba(0, 255, 255, 0.7); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">💔</text></svg>'), auto;
+        }
+
+        a, button, .cta-button, .social-links a {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text y="28" font-size="28">💜</text></svg>'), pointer;
+        }
+
+        /* VHS scanlines effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.5;
+        }
+
+        /* VHS tracking lines */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(255, 0, 255, 0.05) 50%,
+                transparent 100%
+            );
+            animation: vhsGlitch 0.3s infinite;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.3;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top, #1a0033 0%, #000 50%, #000 100%);
+            z-index: 0;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 20, 147, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(75, 0, 130, 0.08) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.6;
+            mix-blend-mode: overlay;
+        }
+
+        .sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(45deg, #ff69b4, #8a2be2);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: sparkle 4s infinite;
+            filter: blur(1px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px 80px;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .logo {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 6rem;
+            background: linear-gradient(135deg, #ff1493, #8a2be2, #4b0082);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 12px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.5));
+            animation: chromatic 3s infinite, float 4s ease-in-out infinite;
+            position: relative;
+        }
+
+        .logo::after {
+            content: 'FEMCEL';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 6rem;
+            letter-spacing: 12px;
+            background: linear-gradient(135deg, #ff1493, #8a2be2, #4b0082);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.3;
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #ff69b4;
+            font-style: italic;
+            text-shadow: 
+                0 0 10px rgba(255, 105, 180, 0.8),
+                2px 2px 4px rgba(0,0,0,0.9);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite 0.5s;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #ddd;
+            opacity: 0.9;
+            text-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
+        }
+
+        .token-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 60px 0;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(75, 0, 130, 0.2));
+            padding: 30px 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            min-width: 220px;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 20px rgba(255, 20, 147, 0.2),
+                inset 0 0 20px rgba(138, 43, 226, 0.1);
+            animation: float 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .info-box:hover {
+            transform: translateY(-10px);
+            border-color: #ff69b4;
+            box-shadow: 
+                0 0 40px rgba(255, 20, 147, 0.5),
+                inset 0 0 20px rgba(138, 43, 226, 0.2);
+        }
+
+        .info-box:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .info-box:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .info-box h3 {
+            color: #ff69b4;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        .info-box p {
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+
+        .meme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            margin: 100px 0;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .meme-card {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #0a0a0a;
+            border: 3px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 
+                0 0 30px rgba(138, 43, 226, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .meme-card:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .meme-card:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .meme-card:hover {
+            transform: scale(1.05) rotate(2deg);
+            border-color: #ff69b4;
+            box-shadow: 
+                0 0 50px rgba(255, 20, 147, 0.6),
+                0 0 100px rgba(138, 43, 226, 0.4),
+                inset 0 0 30px rgba(138, 43, 226, 0.2);
+        }
+
+        .meme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.9) 100%);
+            z-index: 1;
+        }
+
+        .meme-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 20, 147, 0.1) 50%,
+                transparent 100%
+            );
+            animation: vhsGlitch 5s infinite;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .meme-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: brightness(0.85) contrast(1.15) saturate(1.3);
+            position: relative;
+        }
+
+        .femcel-logo-small {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #ff1493, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.7));
+            z-index: 2;
+            animation: pulse 3s infinite;
+        }
+
+        .meme-text {
+            position: absolute;
+            bottom: 25px;
+            left: 25px;
+            right: 25px;
+            z-index: 2;
+            font-size: 1.15rem;
+            color: #ff69b4;
+            font-style: italic;
+            font-weight: 600;
+            text-shadow: 
+                0 0 10px rgba(255, 105, 180, 0.8),
+                2px 2px 6px rgba(0,0,0,0.9),
+                -1px -1px 0px rgba(138, 43, 226, 0.5);
+            line-height: 1.5;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(75, 0, 130, 0.15));
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 0 20px rgba(138, 43, 226, 0.2),
+                inset 0 0 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #ff69b4;
+            box-shadow: 
+                0 0 40px rgba(255, 20, 147, 0.4),
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                inset 0 0 20px rgba(138, 43, 226, 0.2);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+            color: #ff69b4;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        .feature-card p {
+            line-height: 1.9;
+            color: #ddd;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 100px 20px;
+            margin-top: 80px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.25), rgba(75, 0, 130, 0.25));
+            border-radius: 25px;
+            border: 3px solid rgba(255, 105, 180, 0.3);
+            box-shadow: 
+                0 0 50px rgba(138, 43, 226, 0.4),
+                inset 0 0 40px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out 1.5s both;
+        }
+
+        .cta-section h2 {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ff1493, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.5));
+            animation: chromatic 3s infinite;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 50px;
+            color: #ff69b4;
+            font-style: italic;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 22px 60px;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #ff1493, #8a2be2);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 15px;
+            transition: all 0.4s ease;
+            border: 3px solid rgba(255, 105, 180, 0.5);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            box-shadow: 
+                0 0 30px rgba(255, 20, 147, 0.5),
+                0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 0 50px rgba(255, 20, 147, 0.8),
+                0 15px 40px rgba(0, 0, 0, 0.7);
+            border-color: #ff69b4;
+        }
+
+        .cta-button.secondary {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.5), rgba(75, 0, 130, 0.5));
+            border: 3px solid rgba(138, 43, 226, 0.5);
+        }
+
+        .cta-button.secondary:hover {
+            background: linear-gradient(135deg, #8a2be2, #4b0082);
+            box-shadow: 
+                0 0 50px rgba(138, 43, 226, 0.8),
+                0 15px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: #ff69b4;
+            font-size: 1.1rem;
+            text-decoration: none;
+            padding: 15px 35px;
+            background: rgba(138, 43, 226, 0.2);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 20, 147, 0.3);
+            border-color: #ff69b4;
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(255, 20, 147, 0.5);
+        }
+
+        .disclaimer {
+            text-align: center;
+            padding: 50px 20px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            line-height: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid rgba(255, 105, 180, 0.2);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3.5rem;
+                letter-spacing: 6px;
+            }
+            
+            .logo::after {
+                font-size: 3.5rem;
+                letter-spacing: 6px;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            
+            .meme-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin: 50px 0;
+            }
+
+            .meme-card {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .features {
+                gap: 25px;
+                margin: 50px 0;
+            }
+
+            .feature-card {
+                padding: 30px 25px;
+            }
+
+            .cta-section {
+                padding: 60px 15px;
+                margin-top: 50px;
+            }
+
+            .cta-section h2 {
+                font-size: 2.5rem;
+            }
+
+            .cta-section p {
+                font-size: 1.1rem;
+                padding: 0 10px;
+            }
+
+            .cta-button {
+                padding: 18px 40px;
+                font-size: 1.1rem;
+                margin: 10px 5px;
+                letter-spacing: 2px;
+            }
+
+            .social-links {
+                gap: 15px;
+                margin: 40px 10px;
+            }
+
+            .social-links a {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+            }
+
+            header {
+                padding: 60px 15px 50px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+            
+            .logo::after {
+                font-size: 2.5rem;
+                letter-spacing: 4px;
+            }
+
+            .tagline {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+
+            .cta-button {
+                padding: 16px 30px;
+                font-size: 1rem;
+                display: block;
+                margin: 10px auto;
+                max-width: 280px;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .social-links a {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+
+            .feature-card {
+                padding: 25px 20px;
+            }
+
+            .feature-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .meme-text {
+                font-size: 1rem;
+                bottom: 20px;
+                left: 15px;
+                right: 15px;
+            }
+
+            .femcel-logo-small {
+                font-size: 1.4rem;
+                top: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
+    <div class="grain"></div>
+    <div class="sparkles" id="sparkles"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">FEMCEL</div>
+            <p class="tagline">he couldn't afford emotional stability but had $2,000 in dogecoin</p>
+            <p class="subtitle">the chronically online meme coin</p>
+        </header>
+
+        <div class="meme-grid">
+            <div class="meme-card">
+                <div class="femcel-logo-small">FEMCEL</div>
+                <div class="meme-content" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);">
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">💸</div>
+                        <p style="font-size: 0.9rem; color: #ddd;">broke men scare me.<br>crypto men scare me more.</p>
+                    </div>
+                </div>
+                <p class="meme-text">trading my sanity for shitcoins since 2021</p>
+            </div>
+            <div class="meme-card">
+                <div class="femcel-logo-small">FEMCEL</div>
+                <div class="meme-content" style="background: linear-gradient(135deg, #2d2d44 0%, #1a1a2e 100%);">
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🎮</div>
+                        <p style="font-size: 0.9rem; color: #ddd;">he said hes not ready for a relationship<br>but spends $600 a month on NFTs no one asked for</p>
+                    </div>
+                </div>
+                <p class="meme-text">at least my bags won't ghost me</p>
+            </div>
+            <div class="meme-card">
+                <div class="femcel-logo-small">FEMCEL</div>
+                <div class="meme-content" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);">
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">💔</div>
+                        <p style="font-size: 0.9rem; color: #ddd;">floating through darkness like a deflated balloon<br>with abandonment issues</p>
+                    </div>
+                </div>
+                <p class="meme-text">emotional damage: mooning 📈</p>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>💜 Community Driven</h3>
+                <p>Built by the chronically online, for the chronically online. No VC funds, no corporate nonsense. Just pure unhinged energy.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎮 Gaming Sessions</h3>
+                <p>Weekly gaming nights where we collectively avoid touching grass. League, Valorant, whatever keeps us inside.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🌸 Pink Pill Philosophy</h3>
+                <p>Rejecting traditional narratives and building our own path. This isn't about dating—it's about community and memes.</p>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Join the Movement</h2>
+            <p>stop pretending to have your life together. embrace the chaos.</p>
+            <a href="https://www.jup.ag/swap?sell=So11111111111111111111111111111111111111112&buy=BmjEmbUX1CA3Lj3o4WPfx4sTwAnX1BnoMLo25gUfpump" target="_blank" class="cta-button">Buy $FEMCEL</a>
+            <a href="https://pump.fun/coin/BmjEmbUX1CA3Lj3o4WPfx4sTwAnX1BnoMLo25gUfpump" target="_blank" class="cta-button secondary">Live Streams</a>
+            
+            <div class="social-links">
+                <a href="https://x.com/FEMCELsol" target="_blank">Twitter</a>
+                <a href="https://soundcloud.com/femcel-552333312?ref=clipboard&p=i&c=1&si=F000EE66F17C4FB191FC9E37498173A4" target="_blank">SoundCloud</a>
+                <a href="https://t.me/femcelsol" target="_blank">Telegram</a>
+            </div>
+        </div>
+
+        <div class="meme-section" style="text-align: center; margin: 60px 0;">
+            <h2 style="font-family: 'UnifrakturMaguntia', cursive; color: #c4c4c4; margin-bottom: 30px; font-size: 2.5rem;">The Vibe</h2>
+            <p style="font-size: 1.2rem; line-height: 2.2; max-width: 800px; margin: 0 auto; color: #ffb6c1; font-style: italic;">
+                Gaming until sunrise 🎮<br>
+                Bed rotting is self-care 🛏️<br>
+                Touch grass? Never heard of her 🌱❌<br>
+                Chronically online and proud 💻<br>
+                Depression memes as a love language 💜
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Create sparkles
+        const sparklesContainer = document.getElementById('sparkles');
+        for (let i = 0; i < 30; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 3 + 's';
+            sparklesContainer.appendChild(sparkle);
+        }
+
+        // Konami code easter egg
+        let konamiCode = [];
+        const konamiPattern = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.key);
+            konamiCode = konamiCode.slice(-10);
+            
+            if (konamiCode.join(',') === konamiPattern.join(',')) {
+                document.body.style.filter = 'hue-rotate(180deg)';
+                setTimeout(() => {
+                    document.body.style.filter = '';
+                    alert('🎮 Achievement Unlocked: True Femcel Status\nYou found the easter egg. Touch grass is officially cancelled.');
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
