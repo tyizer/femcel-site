@@ -82,10 +82,11 @@
             );
             pointer-events: none;
             z-index: 1000;
-            opacity: 0.5;
+            opacity: 0.3;
+            will-change: opacity;
         }
 
-        /* VHS tracking lines */
+        /* VHS tracking lines - simplified */
         body::after {
             content: '';
             position: fixed;
@@ -96,13 +97,12 @@
             background: linear-gradient(
                 to bottom,
                 transparent 0%,
-                rgba(255, 0, 255, 0.05) 50%,
+                rgba(255, 0, 255, 0.03) 50%,
                 transparent 100%
             );
-            animation: vhsGlitch 0.3s infinite;
             pointer-events: none;
             z-index: 999;
-            opacity: 0.3;
+            opacity: 0.2;
         }
 
         .bg-gradient {
@@ -137,8 +137,9 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
             pointer-events: none;
             z-index: 2;
-            opacity: 0.6;
+            opacity: 0.3;
             mix-blend-mode: overlay;
+            will-change: opacity;
         }
 
         .sparkles {
@@ -188,6 +189,8 @@
             filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.5));
             animation: chromatic 3s infinite, float 4s ease-in-out infinite;
             position: relative;
+            will-change: transform, filter;
+            transform: translateZ(0);
         }
 
         .logo::after {
@@ -343,12 +346,12 @@
             background: linear-gradient(
                 90deg,
                 transparent 0%,
-                rgba(255, 20, 147, 0.1) 50%,
+                rgba(255, 20, 147, 0.05) 50%,
                 transparent 100%
             );
-            animation: vhsGlitch 5s infinite;
             z-index: 2;
             pointer-events: none;
+            opacity: 0.5;
         }
 
         .meme-content {
@@ -808,9 +811,9 @@
     </div>
 
     <script>
-        // Create sparkles
+        // Create sparkles (reduced count for performance)
         const sparklesContainer = document.getElementById('sparkles');
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 15; i++) {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
             sparkle.style.left = Math.random() * 100 + '%';
@@ -837,5 +840,4 @@
         });
     </script>
 </body>
-
 </html>
